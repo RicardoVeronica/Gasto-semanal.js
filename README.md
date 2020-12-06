@@ -1,2 +1,2 @@
-# gasto-semanal
-Simple javascript project
+# Gasto-semanal.js
+Aplicacion de gasto semanal con orientacion a objetos
