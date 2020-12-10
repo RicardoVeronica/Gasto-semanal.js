@@ -25,6 +25,11 @@ class Presupuesto {
     this.restante = Number(presupuesto); // Restante al inicio es lo mismo que presupuesto
     this.gastos = [];
   }
+
+  nuevoGasto(gasto) {
+    // Agrega nuevo gasto de agregarGasto()
+    this.gastos = [...this.gastos, gasto]; // Saca agrega obj gasto a array gastos
+  }
 }
 
 class UserInterface {
@@ -87,11 +92,20 @@ function agregarGasto(e) {
   e.preventDefault();
 
   const nombre = document.getElementById("gasto").value;
-  const cantidad = document.getElementById("cantidad").value;
+  const cantidad = Number(document.getElementById("cantidad").value);
 
   if (nombre === "" || cantidad === "") {
     userInterface.imprimirAlerta("Todos los campos son obligatorios", "error");
   } else if (cantidad <= 0 || isNaN(cantidad)) {
     userInterface.imprimirAlerta("La cantidad no es valida", "error");
   }
+
+  // Crea objeto literal del gasto con id para eliminar
+  const gasto = { nombre, cantidad, id: Date.now() }; // obj literal enhancement
+
+  presupuesto.nuevoGasto(gasto); // Pasamos el obj gasto al array gastos de clase Presupuesto{}
+
+  userInterface.imprimirAlerta("Gasto agregado correctamente"); // Agrega alerta que no es error
+
+  formulario.reset(); // Limpiar el formulario despues de agregar nuevo gasto y mostrar alerta
 }
