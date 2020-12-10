@@ -28,6 +28,11 @@ class Presupuesto {
 
 class UserInterface {
   // Muestra HTML necesario
+  insertarPresupuesto(cantidad) {
+    const { presupuesto, restante } = cantidad; // Se extrae lo que se va a mostrar en el HTML
+    document.getElementById("total").textContent = presupuesto; // se muestra en el HTML
+    document.getElementById("restante").textContent = restante;
+  }
 }
 
 /*
@@ -52,5 +57,5 @@ function preguntarPresupuesto() {
   }
 
   presupuesto = new Presupuesto(presupuestoUsuario); // Pasa presupuesto de prompt a la clase Presupuesto
-  console.log(presupuesto);
+  userInterface.insertarPresupuesto(presupuesto); // Pasa el obj completo de Presupuesto{}
 }
