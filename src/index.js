@@ -60,6 +60,40 @@ class UserInterface {
       div.remove();
     }, 2500);
   }
+
+  agregarGastoListado(gastos) {
+    // Elimina los gastos duplicados por el appendChild
+    this.limpiarHTML();
+
+    // Agrega lista de gastos al HTML iterando cada uno
+    gastos.forEach((gasto) => {
+      const { cantidad, nombre, id } = gasto;
+
+      // Crea li con contenido, clases y data attribute como id
+      const nuevoGasto = document.createElement("li");
+      nuevoGasto.className =
+        "list-group-item d-flex justify-content-between align-items-center";
+      nuevoGasto.dataset.id = id;
+      nuevoGasto.innerHTML = `
+        ${nombre} <span class="badge badge-primary badge-pill">$${cantidad}</span>
+      `;
+
+      // Crea boton para borrar gasto
+      const btnBorrar = document.createElement("button");
+      btnBorrar.className = "btn btn-danger borrar-gasto";
+      btnBorrar.textContent = "Eliminar";
+
+      nuevoGasto.appendChild(btnBorrar);
+      gastoListado.appendChild(nuevoGasto); // appendChild no borra los registros previos
+    });
+  }
+
+  limpiarHTML() {
+    // Elimina los gastos duplicados por appendChild
+    while (gastoListado.firstChild) {
+      gastoListado.removeChild(gastoListado.firstChild);
+    }
+  }
 }
 
 /*
@@ -106,6 +140,9 @@ function agregarGasto(e) {
   presupuesto.nuevoGasto(gasto); // Pasamos el obj gasto al array gastos de clase Presupuesto{}
 
   userInterface.imprimirAlerta("Gasto agregado correctamente"); // Agrega alerta que no es error
+
+  const { gastos } = presupuesto; // Array de gastos del obj Presupuesto
+  userInterface.agregarGastoListado(gastos); // Metodo que agrega al HTML los gastos
 
   formulario.reset(); // Limpiar el formulario despues de agregar nuevo gasto y mostrar alerta
 }
