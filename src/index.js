@@ -29,6 +29,18 @@ class Presupuesto {
   nuevoGasto(gasto) {
     // Agrega nuevo gasto de agregarGasto()
     this.gastos = [...this.gastos, gasto]; // Saca agrega obj gasto a array gastos
+    this.calcularRestante();
+  }
+
+  calcularRestante() {
+    // Calcula el restante despues de lo gastos hechos
+    // reduce() pide un acumulador que inicia en 0 y un iterador que es gasto.cantidad y lo suma
+    const gastado = this.gastos.reduce(
+      (total, gasto) => total + gasto.cantidad,
+      0
+    );
+
+    this.restante = this.presupuesto - gastado; // Regresa el restante calculado
   }
 }
 
@@ -94,6 +106,10 @@ class UserInterface {
       gastoListado.removeChild(gastoListado.firstChild);
     }
   }
+
+  actualizarRestante(restante) {
+    document.getElementById("restante").textContent = restante;
+  }
 }
 
 /*
@@ -141,8 +157,10 @@ function agregarGasto(e) {
 
   userInterface.imprimirAlerta("Gasto agregado correctamente"); // Agrega alerta que no es error
 
-  const { gastos } = presupuesto; // Array de gastos del obj Presupuesto
+  const { gastos, restante } = presupuesto; // Array de gastos del obj Presupuesto
   userInterface.agregarGastoListado(gastos); // Metodo que agrega al HTML los gastos
+
+  userInterface.actualizarRestante(restante); // Actualiza restante en HTML
 
   formulario.reset(); // Limpiar el formulario despues de agregar nuevo gasto y mostrar alerta
 }
